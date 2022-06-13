@@ -4,20 +4,9 @@ import { Grid, GridItem } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { Button } from '@chakra-ui/react';
 import {
-  ListItem, OrderedList
+  ListItem,
+  UnorderedList,
 } from '@chakra-ui/react';
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from '@chakra-ui/react';
-import { Box } from '@chakra-ui/react';
 
 
 export default function Home() {
@@ -26,7 +15,7 @@ export default function Home() {
   const [category, setCategoty] = useState("");
   const [submittedRequest, setSubmittedRequest] = useState(null);
   const [coursesList, setCoursesList] = useState([]);
-  const [courseToDeleteId, setCourseToDeleteId] = useState(null);
+  const [courseToDeleteId, setCourseToDeleteId] =useState(null);
 
     useEffect(() => {
       async function fetchCourses() {
@@ -37,7 +26,7 @@ export default function Home() {
         const data = await response.json();
         setCoursesList(data.payload);
       } fetchCourses();
-    }, [coursesList] );
+    }, [] );
 
     useEffect(() => {
       if ( courseToDeleteId){
@@ -53,7 +42,7 @@ export default function Home() {
         const data = await result.json();
       } deleteRequest();
     }
-    }, [courseToDeleteId])
+    })
 
 
     useEffect( () => {
@@ -71,29 +60,24 @@ export default function Home() {
             })
           })
           const data = await result.json();
-          setSubmittedRequest(null)
   
         }
         postRequest();
       }
-    }, [submittedRequest])
+    })
 
 
     function handleSubmit(e){
       e.preventDefault();
-
       setSubmittedRequest({title: title , category: category});
-      console.log("Added", submittedRequest);
       setTitle("");
-      setCategoty("")
     }
     function handleDelete(index, course_id){
+      setCourseToDeleteId(course_id)
       console.log("Why am i not showing");
-      setCourseToDeleteId(course_id);
       setCoursesList([...coursesList.slice(0,index), ...coursesList.slice(index + 1)]);
       console.log("They are here", courseToDeleteId, coursesList);
     }
-
   return (
     <div className={styles.container}>
       <Head>
@@ -113,63 +97,41 @@ export default function Home() {
   color='blackAlpha.700'
   fontWeight='bold'
 >
-  <GridItem pl='2' bg='pink.300' area={'header'}>
+  <GridItem pl='2' bg='orange.300' area={'header'}>
     OPEN STUDY COLLEGE COURSES
   </GridItem>
   <GridItem pl='2' bg='pink.300' area={'nav'}>
-    Open Study College
+    Nav
 
   </GridItem>
-  <GridItem pl='2' bg='pink.200' area={'main'}>
-    Couse Table
-      <Box bg='#D4A6A0' w='600px' p={4} color='white'>
-      <TableContainer>
-  <Table size='sm'>
-    <Thead>
-      <Tr>
-        <Th isNumeric>Course ID</Th>
-        <Th>Course title</Th>
-        <Th >Course category</Th>
-      </Tr>
-    </Thead>
-    <Tbody>
-    {coursesList.map((course, index)=> {return(
-      <>
-            <Tr>
-              <Td isNumeric>{course.course_id}</Td>
-              <Td>{course.title}</Td>
-              <Td >{course.category}</Td>
-              <Td><Button onClick={()=>{ handleDelete(index, course.course_id) }} colorScheme='red' >X</Button></Td>
-            </Tr>
-      </>
-      )})}
+  <GridItem pl='2' bg='green.300' area={'main'}>
+    Main
 
-    </Tbody>
-  </Table>
-</TableContainer>
-<label>Course Title : </label>
-<br/>
-  <input style={{margin: "10px", color: "black"}}
+
+  <UnorderedList>
+     {coursesList.map((course, index)=>{ return(<ListItem key={index}> {course.title} || {course.setCategoty} ||
+     <Button onClick={()=>{ handleDelete(index, course.course_id) }} colorScheme='blue' >X</Button>
+     </ListItem>)})}
+  </UnorderedList>  
+      <input
         onChange={(e) =>
           console.log("%cinput change event", "color:red") ||
           setTitle(e.target.value)
         }
         value={title}
-        placeholder="title"
+        placeholder="to do..."
       />
       <br/>
-      <label>Course Category : </label>
-      <br/>
-      <input style={{margin: "10px", color: "black"}}
+      <input
         onChange={(e) =>
           console.log("%cinput change event", "color:red") ||
           setCategoty(e.target.value)
         }
         value={category}
-        placeholder="category"
+        placeholder="to do..."
       />
       <Button onClick={handleSubmit} colorScheme='blue'>Button</Button>
-      </Box>
+
   </GridItem>
   <GridItem pl='2' bg='blue.300' area={'footer'}>
     Footer
