@@ -149,7 +149,7 @@ export default function Home() {
 </TableContainer>
 <label>Course Title : </label>
 <br/>
-  <input style={{margin: "10px", color: "black"}}
+  <input type="text" name="title" required style={{margin: "10px", color: "black"}}
         onChange={(e) =>
           console.log("%cinput change event", "color:red") ||
           setTitle(e.target.value)
@@ -160,7 +160,7 @@ export default function Home() {
       <br/>
       <label>Course Category : </label>
       <br/>
-      <input style={{margin: "10px", color: "black"}}
+      <input type="text" name="category" required style={{margin: "10px", color: "black"}}
         onChange={(e) =>
           console.log("%cinput change event", "color:red") ||
           setCategoty(e.target.value)
@@ -168,7 +168,7 @@ export default function Home() {
         value={category}
         placeholder="category"
       />
-      <Button onClick={handleSubmit} colorScheme='blue'>Button</Button>
+      <Button onClick={handleSubmit} colorScheme='blue'>Add Course</Button>
       </Box>
   </GridItem>
   <GridItem pl='2' bg='blue.300' area={'footer'}>
